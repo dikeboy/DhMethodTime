@@ -30,7 +30,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //设置插件的GAV参数
-            pom.artifactId = 'dhjar'
+            pom.artifactId = 'dhmtime'
             //文件发布到下面目录
             repository(url: uri('../repo'))
             pom.groupId = 'com.lin.dhjar'

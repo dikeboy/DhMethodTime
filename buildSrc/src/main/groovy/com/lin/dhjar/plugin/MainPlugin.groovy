@@ -10,7 +10,7 @@ import org.gradle.api.Project;
 public class MainPlugin implements Plugin<Project>{
     void apply(Project project) {
         project.logger.error("Dhjar start=========================")
-        project.extensions.create("dhjar", LJarConfig)
+        project.extensions.create("dhMCConfig", LJarConfig)
         project.android.registerTransform(new JavassistTransform(project))
     }
 }

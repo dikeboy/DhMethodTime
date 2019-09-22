@@ -14,15 +14,16 @@ public class JavassistTransform extends Transform {
     private LJarConfig lJarConfig
     public JavassistTransform(Project project) {
         this.project = project;
-        this.lJarConfig = project.dhjar
+        this.lJarConfig = project.dhMCConfig
         if(lJarConfig==null){
             lJarConfig = new LJarConfig()
         }
+        System.out.println("type=================="+lJarConfig.calculate.toString()+"==========")
     }
 
     @Override
     public String getName() {
-        return "dhJarPlugin"
+        return "dhmtimePlugin"
     }
 
     @Override
@@ -77,7 +78,7 @@ public class JavassistTransform extends Transform {
                     mClassPool.appendClassPath(new JarClassPath(jarInput.getFile().getAbsolutePath()));
                 }
             }
-            System.out.println("class size==="+classSet.size());
+            System.out.println("class size===="+classSet.size());
             for (DirectoryInput directoryInput : classSet){
                 File dest = outputProvider.getContentLocation(directoryInput.getName(),
                         directoryInput.getContentTypes(), directoryInput.getScopes(),
@@ -87,17 +88,6 @@ public class JavassistTransform extends Transform {
                 JavassistInject.injectDir(directoryInput.getFile().getAbsolutePath(),dest.getAbsolutePath(), mClassPool,lJarConfig);
             }
             for(JarInput jarInput : jarSet){
-                String fileName = jarInput.getFile().getAbsolutePath()
-                System.out.println("filename==="+fileName);
-                boolean isCut = false
-                 for(String jarFile: lJarConfig.jarPath){
-                     if(fileName.contains(jarFile)&&fileName.endsWith("jar")) {
-                         isCut = true
-                         break
-
-                     }
-                 }
-                isCut = false
                 String jarName = jarInput.getName();
                 String md5Name = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
                 if (jarName.endsWith(".jar")) {
@@ -105,13 +95,7 @@ public class JavassistTransform extends Transform {
                 }
                 File dest = outputProvider.getContentLocation(jarName + md5Name,
                         jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
-                if(isCut){
-                    project.logger.error("============replace jar==="+fileName);
-                    project.logger.error("===========replace dest==="+dest);
-                    JavassistInject.injectJar(jarInput.getFile(),dest, mClassPool,lJarConfig);
-                }else{
-                    FileUtils.copyFile(jarInput.getFile(),dest)
-                }
+                 FileUtils.copyFile(jarInput.getFile(),dest)
             }
         } catch (Exception e) {
             e.printStackTrace();

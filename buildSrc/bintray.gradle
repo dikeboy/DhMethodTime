@@ -112,7 +112,7 @@ bintray {
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
-        repo = "dhjar" //bintray 上面 Package名字
+        repo = "dhmtime" //bintray 上面 Package名字
         name = "jarcatch" //bintray 上面项目名
         desc = 'The Android Plugin for aspject.'
         websiteUrl = siteUrl

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: "dhjarplugin"
+apply plugin: "dhmtime"
 
 
 android {
@@ -41,8 +41,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
 
-dhjar {
-    jarFiles("appcompat","test")
-//    cutFiles("androidx.appcompat.app.AppCompatActivity:onCreate:getDelegate:onKeyDown")
-    cutFiles("com.vova.testlibrary.TestFile:getInt:getFloat:getDouble:getLong:getShort:getChar:getByte:getString")
+dhMCConfig {
+    ctype("debug")
 }

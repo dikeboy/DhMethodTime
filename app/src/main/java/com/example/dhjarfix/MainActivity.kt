@@ -43,11 +43,14 @@ class MainActivity : AppCompatActivity() {
             Log.e("lin","list="+it);
         }
     }
-    private fun fillListRight(rightEdge: Int, dx: Int,dy:Int) {
+    private fun fillListRight(rightEdge: Int, dx: Int,dy:Int):Int {
+        var a = 5
+        var b = 3
         while (rightEdge <6&&rightEdge>0) {
             var name = rightEdge*2
             name =  rightEdge/3
         }
+        return a + b
     }
 
     private fun doPostDelayedTask() {
@@ -56,5 +59,6 @@ class MainActivity : AppCompatActivity() {
             }
         }, 1000)
     }
+
 
 }

@@ -145,7 +145,7 @@ class JavassistInject {
         Set<String> currentMethod = new HashSet<String>()
         for(int i=0;i<l;i++){
             CtMethod  m = c.getDeclaredMethods()[i]
-            if(m.getReturnType().getName().contains("void")){
+
                 if(m.isEmpty())
                     continue
                 if(m.metaClass.static==true){
@@ -166,20 +166,25 @@ class JavassistInject {
                 c.addField(ctField,"0l")
                 m.addLocalVariable(param,CtClass.longType)
                 param = c.getName()+"."+ param
-                System.out.println(m.getName()+"====" + m.getModifiers()+" param1="+param)
+//                System.out.println(m.getName()+"=====" + m.getModifiers()+" param1="+param)
                 m.insertBefore(param+" =  System.currentTimeMillis();")
                 String line = "  System.out.println(\""+c.getName()+"::::"+m.getMethodInfo().getName()+"======= \"+(System.currentTimeMillis() - "+param+"));"
                 try{
-                    int lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length())
-                    System.out.println("line==="+lineNum)
-                    m.insertAt(lineNum,line)
+                    int lineNum = 0;
+                    if(m.getReturnType().getName().contains("void")) {
+                         lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length())
+                    }else {
+                         lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length()) -1
+                    }
+
+                    if(lineNum>0)
+                         m.insertAt(lineNum,line)
                 }catch(CannotCompileException ex){
                     System.out.println(param+" get Error")
                 }
 
 //                m.insertAfter( "System.out.println("+param+");")
 //                m.insertAfter()
-            }
         }
 
     }
