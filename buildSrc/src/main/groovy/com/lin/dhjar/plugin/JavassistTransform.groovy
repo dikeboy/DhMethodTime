@@ -44,7 +44,8 @@ public class JavassistTransform extends Transform {
     Set<? super QualifiedContent.Scope> getReferencedScopes() {
         Set<QualifiedContent.Scope> sets = new HashSet<QualifiedContent.Scope>()
         sets.add(QualifiedContent.Scope.EXTERNAL_LIBRARIES)
-        sets.add(QualifiedContent.Scope.PROVIDED_ONLY)
+        sets.add(QualifiedContent.Scope.PROJECT)
+        sets.add(QualifiedContent.Scope.SUB_PROJECTS)
         return sets
     }
 
@@ -55,7 +56,7 @@ public class JavassistTransform extends Transform {
 
     @Override
     public void transform(TransformInvocation transformInvocation) throws IOException {
-        project.logger.error("=================DhJarPluginTransform start====================");
+        project.logger.error("=================DhMTimePluginTransform start====================");
 
         try {
             Collection<TransformInput> inputs = transformInvocation.getInputs();
@@ -93,14 +94,21 @@ public class JavassistTransform extends Transform {
                 if (jarName.endsWith(".jar")) {
                     jarName = jarName.substring(0, jarName.length() - 4);
                 }
+//                System.out.println("input jar==="+jarInput.getFile().getAbsolutePath())
                 File dest = outputProvider.getContentLocation(jarName + md5Name,
                         jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
-                 FileUtils.copyFile(jarInput.getFile(),dest)
+                if(jarInput.getScopes().toString().contains("SUB_PROJECTS")){
+                    JavassistInject.injectJar(jarInput.getFile(),dest, mClassPool,lJarConfig);
+                }
+                else{
+                    FileUtils.copyFile(jarInput.getFile(),dest)
+                }
+                System.out.println("output jar==="+dest.getAbsolutePath())
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        project.logger.error("=================DhJarPluginTransform finish====================");
+        project.logger.error("=================DhMTimePluginTransform finish====================");
     }
 
 }

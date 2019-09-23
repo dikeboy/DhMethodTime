@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.vova.testlibrary.TestFile
+import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity() {
     var list = listOf<String>("aaa","bbb","ccc")
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        fillListRight()
 //        var test = TestFile()
 //        test.string
     }
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private fun fillListRight() {
         list.forEach {
             Log.e("lin","list="+it);
+            Thread.sleep(500)
         }
     }
     private fun fillListRight(rightEdge: Int, dx: Int,dy:Int):Int {

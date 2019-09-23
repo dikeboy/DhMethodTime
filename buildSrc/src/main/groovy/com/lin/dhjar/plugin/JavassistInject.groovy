@@ -127,9 +127,9 @@ class JavassistInject {
 //                break;
 //            }
 //        }
-        logMethodTime(c,mClassPool,null)
+        logMethodTime(c,mClassPool,lJarConfig)
     }
-    private static void  logMethodTime(CtClass c, ClassPool mClassPool,List<String> methods) {
+    private static void  logMethodTime(CtClass c, ClassPool mClassPool,LJarConfig lJarConfig) {
         if (c.isFrozen()) {
             c.defrost()
         }
@@ -148,9 +148,6 @@ class JavassistInject {
 
                 if(m.isEmpty())
                     continue
-                if(m.metaClass.static==true){
-                    continue
-                }
                 if(m.getName().contains("\$"))
                     continue
                 if(m.getModifiers()== 25||m.getModifiers()== 9||m.getModifiers() ==8||m.getModifiers()==24)
@@ -164,11 +161,16 @@ class JavassistInject {
                 CtField ctField = new CtField(CtClass.longType,param,c)
                 ctField.setModifiers(9)
                 c.addField(ctField,"0l")
-                m.addLocalVariable(param,CtClass.longType)
-                param = c.getName()+"."+ param
-//                System.out.println(m.getName()+"=====" + m.getModifiers()+" param1="+param)
+
+
+               String localName = param+"_local"
+
+                m.addLocalVariable(localName,CtClass.longType)
+
+
                 m.insertBefore(param+" =  System.currentTimeMillis();")
-                String line = "  System.out.println(\""+c.getName()+"::::"+m.getMethodInfo().getName()+"======= \"+(System.currentTimeMillis() - "+param+"));"
+                String userTime =" System.currentTimeMillis() - "+param +""
+                String line = "  System.out.println(\""+c.getName()+"::::"+m.getMethodInfo().getName()+"=======\"+("+userTime+"));"
                 try{
                     int lineNum = 0;
                     if(m.getReturnType().getName().contains("void")) {
@@ -177,9 +179,14 @@ class JavassistInject {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length()) -1
                     }
 
-                    if(lineNum>0)
-                         m.insertAt(lineNum,line)
+                    if(lineNum>0){
+                        String resultTime = " if (" + userTime + " >=" + lJarConfig.logMinTime + ")" + line
+//                        System.out.println(resultTime)
+                        m.insertAt(lineNum ,resultTime)
+                    }
+
                 }catch(CannotCompileException ex){
+//                    ex.printStackTrace()
                     System.out.println(param+" get Error")
                 }
 
