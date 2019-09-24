@@ -28,4 +28,4 @@ dhMCConfig {
 
 ### 参考
 * [Javassist 介绍](http://www.javassist.org/tutorial/tutorial.html)
-* [插件介绍](https://www.cnblogs.com/dikeboy/p/11505800.html)
+* [插件介绍](https://www.cnblogs.com/dikeboy/p/11570076.html)
