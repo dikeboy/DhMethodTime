@@ -19,14 +19,30 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../dhtest.jks")
+            storePassword "123456"
+            keyAlias "test0"
+            keyPassword "123456"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true //是否混淆
+            shrinkResources true //是否去除无效的资源文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     dataBinding {
         enabled = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
@@ -43,6 +59,5 @@ dependencies {
 }
 
 dhMCConfig {
-    ctype("debug")
     logMinTime(50l)
 }

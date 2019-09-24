@@ -18,8 +18,8 @@ public class JavassistTransform extends Transform {
         if(lJarConfig==null){
             lJarConfig = new LJarConfig()
         }
-        System.out.println("type=================="+lJarConfig.calculate.toString()+"==========")
     }
+
 
     @Override
     public String getName() {
@@ -31,9 +31,11 @@ public class JavassistTransform extends Transform {
         return TransformManager.CONTENT_CLASS;
     }
 
+
     @Override
     public Set<? super QualifiedContent.Scope> getScopes() {
         Set<QualifiedContent.Scope> sets = new HashSet<QualifiedContent.Scope>()
+
         sets.add(QualifiedContent.Scope.EXTERNAL_LIBRARIES)
         sets.add(QualifiedContent.Scope.PROJECT)
         sets.add(QualifiedContent.Scope.SUB_PROJECTS)
@@ -56,11 +58,14 @@ public class JavassistTransform extends Transform {
 
     @Override
     public void transform(TransformInvocation transformInvocation) throws IOException {
-        project.logger.error("=================DhMTimePluginTransform start====================");
+        project.logger.error("=================DhMTimePluginTransform start=====================");
 
         try {
             Collection<TransformInput> inputs = transformInvocation.getInputs();
             TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
+            if(outputProvider==null){
+                return
+            }
             outputProvider.deleteAll();
 
             ClassPool mClassPool = new ClassPool(ClassPool.getDefault());
@@ -85,9 +90,10 @@ public class JavassistTransform extends Transform {
                         directoryInput.getContentTypes(), directoryInput.getScopes(),
                         Format.DIRECTORY);
 //                FileUtils.copyDirectory(directoryInput.getFile(),dest)
-                System.out.println("input class ==="+directoryInput.getFile().getAbsolutePath());
-                JavassistInject.injectDir(directoryInput.getFile().getAbsolutePath(),dest.getAbsolutePath(), mClassPool,lJarConfig);
-            }
+                    System.out.println("input class ==="+directoryInput.getFile().getAbsolutePath());
+                    JavassistInject.injectDir(directoryInput.getFile().getAbsolutePath(),dest.getAbsolutePath(), mClassPool,lJarConfig);
+
+          }
             for(JarInput jarInput : jarSet){
                 String jarName = jarInput.getName();
                 String md5Name = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
