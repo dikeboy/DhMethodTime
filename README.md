@@ -8,8 +8,6 @@ An android gradle plugin for calculating time of all Android methods
 
 ##  怎么使用
 
-jcenter地址   https://bintray.com/dikeboy/dhmtime/dhmtime
-
 在项目build.gradle 加入
 ```python
 classpath 'com.lin.dhmtime:dhmtime:1.0.0'
