@@ -24,7 +24,7 @@ dependencies {
 
 
 
-apply from: 'bintray.gradle'
+//apply from: 'bintray.gradle'
 
 uploadArchives {
     repositories {
@@ -33,8 +33,8 @@ uploadArchives {
             pom.artifactId = 'dhmtime'
             //文件发布到下面目录
             repository(url: uri('../repo'))
-            pom.groupId = 'com.lin.dhjar'
-            pom.version = '1.0.0'
+            pom.groupId = 'com.lin.dhmtime'
+            pom.version = '1.0.1'
         }
     }
 }

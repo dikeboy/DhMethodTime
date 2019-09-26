@@ -2,17 +2,16 @@ package com.lin.dhjar.plugin
 
 
 class LJarConfig {
-    String  calculate = "default" //close debug default
-
+    List<String> exclude = new  ArrayList<String>() //exclude class like
     long  logMinTime = 0l
     /**
      * 需要 拦截的jar文件
      * @param filters
      * @return
      */
-    LJarConfig ctype(String value) {
+    LJarConfig getExclude(String...value) {
         if (value != null) {
-            calculate = value;
+            exclude.addAll(value)
         }
         return this
     }

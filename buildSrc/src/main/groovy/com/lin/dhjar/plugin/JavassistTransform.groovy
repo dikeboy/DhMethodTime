@@ -53,12 +53,13 @@ public class JavassistTransform extends Transform {
 
     @Override
     public boolean isIncremental() {
-        return false;
+        return true;
     }
 
     @Override
     public void transform(TransformInvocation transformInvocation) throws IOException {
-        project.logger.error("=================DhMTimePluginTransform start=====================");
+        System.out.println("lin transform==="+ transformInvocation.isIncremental())
+        project.logger.error("=================DhMTimePluginTransform start1=====================");
 
         try {
             Collection<TransformInput> inputs = transformInvocation.getInputs();
@@ -100,7 +101,7 @@ public class JavassistTransform extends Transform {
                 if (jarName.endsWith(".jar")) {
                     jarName = jarName.substring(0, jarName.length() - 4);
                 }
-//                System.out.println("input jar==="+jarInput.getFile().getAbsolutePath())
+                System.out.println("input jar==="+jarInput.getFile().getAbsolutePath())
                 File dest = outputProvider.getContentLocation(jarName + md5Name,
                         jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
                 if(jarInput.getScopes().toString().contains("SUB_PROJECTS")){

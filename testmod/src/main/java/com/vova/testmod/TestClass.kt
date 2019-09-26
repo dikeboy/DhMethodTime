@@ -7,7 +7,7 @@ package com.vova.testmod
  */
 class TestClass {
     public fun  getName(){
-        var name = "aaa"
+        var name = "aaa1"
         name = name + name
         name = name + "aaa"
     }

@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     var list = listOf<String>("aaa","bbb","ccc")
     companion object{
         fun   getName(){
-            var name = "zhangshan"
+            var name = "zhangshan11"
             name = name  + "aaa"
             return
         }

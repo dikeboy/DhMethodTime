@@ -137,8 +137,11 @@ class JavassistInject {
             return
         if(c.getName().contains("\$"))
             return
-//        if(!c.getName().contains("MainActivity"))
-//            return
+        for(String s : lJarConfig.exclude){
+            if(c.getName().contains(s))
+                 return
+        }
+
 
         System.out.println(c.getName()+"===================="+c.isFrozen())
         int l = c.getDeclaredMethods().length
@@ -170,7 +173,7 @@ class JavassistInject {
 
                 m.insertBefore(param+" =  System.currentTimeMillis();")
                 String userTime =" System.currentTimeMillis() - "+param +""
-                String line = "  System.out.println(\""+c.getName()+"::::"+m.getMethodInfo().getName()+"=======\"+("+userTime+"));"
+                String line = "  System.out.println(\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"=======\"+("+userTime+"));"
                 try{
                     int lineNum = 0;
                     if(m.getReturnType().getName().contains("void")) {
