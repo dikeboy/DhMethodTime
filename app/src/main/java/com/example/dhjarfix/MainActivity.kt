@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fillListRight()
-        TestMyJava().name
+
 //        var test = TestFile()
 //        test.string
     }

@@ -143,12 +143,10 @@ class JavassistInject {
         }
 
 
-        System.out.println(c.getName()+"===================="+c.isFrozen())
         int l = c.getDeclaredMethods().length
         Set<String> currentMethod = new HashSet<String>()
         for(int i=0;i<l;i++){
             CtMethod  m = c.getDeclaredMethods()[i]
-
                 if(m.isEmpty())
                     continue
                 if(m.getName().contains("\$"))
@@ -167,14 +165,11 @@ class JavassistInject {
 
 
                String localName = param+"_local"
-
                 m.addLocalVariable(localName,CtClass.longType)
-
-
+            try{
                 m.insertBefore(param+" =  System.currentTimeMillis();")
                 String userTime =" System.currentTimeMillis() - "+param +""
                 String line = "  System.out.println(\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"=======\"+("+userTime+"));"
-                try{
                     int lineNum = 0;
                     if(m.getReturnType().getName().contains("void")) {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length())
