@@ -181,7 +181,6 @@ class JavassistInject {
                     }else {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length()) -1
                     }
-
                     if(lineNum>0){
                         String resultTime = " if (" + userTime + " >=" + lJarConfig.logMinTime + ")" + line
 //                        System.out.println(resultTime)

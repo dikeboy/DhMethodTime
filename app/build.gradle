@@ -60,5 +60,4 @@ dependencies {
 
 dhMCConfig {
     minTime(50l)
-    getExclude("MainActivity")
 }
