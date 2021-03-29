@@ -16,6 +16,11 @@ App build.gradle
 ```python
 apply plugin: "dhmtime"
 ...
+dependencies {
+    ....
+    implementation 'org.javassist:javassist:3.25.0-GA'
+}
+
 ...
 dhMCConfig {
     logMinTime(50l)//log method will more than this
