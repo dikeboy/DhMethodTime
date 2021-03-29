@@ -7,15 +7,25 @@ DhMethodTime 是一个再debug下统计所有安卓方法耗时的插件，引�
 An android gradle plugin for calculating time of all Android methods
 
 ##  怎么使用
-
+mkdir in app/plugins.  copy dhmtime-1.0.0.jar to plugins/
+```python
+    repositories {
+        google()
+        jcenter()
+        flatDir name: 'localRepository', dir: './app/plugins'
+    }
+```
 在项目build.gradle 加入
 ```python
 classpath 'com.lin.dhmtime:dhmtime:1.0.0'
+classpath 'org.javassist:javassist:3.25.0-GA'
 ```
 App build.gradle 
 ```python
+
 apply plugin: "dhmtime"
 ...
+
 ...
 dhMCConfig {
     logMinTime(50l)//log method will more than this
