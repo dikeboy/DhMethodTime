@@ -30,7 +30,7 @@ apply plugin: "dhmtime"
 
 ...
 dhMCConfig {
-    logMinTime(50l)//log method will more than this
+    logMinTime(50l)//log method will more than 50 millseconds
 }
 ```
 Log filter ::::::::
