@@ -33,6 +33,9 @@ dhMCConfig {
     logMinTime(50l)//log method will more than this
 }
 ```
+Log filter ::::::::
+![image](https://user-images.githubusercontent.com/4986104/113126882-b7928480-924a-11eb-9ff0-7ed3447a357a.png)
+
 
 
 
