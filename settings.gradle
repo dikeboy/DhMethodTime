@@ -1,2 +1,2 @@
-include ':app', ':buildsrc', ':testmod'
+include ':app', ':buildsrc'
 rootProject.name='dhjarfix'
