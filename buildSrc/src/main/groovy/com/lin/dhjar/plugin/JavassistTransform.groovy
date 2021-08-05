@@ -5,6 +5,7 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
 import javassist.ClassPool
 import javassist.JarClassPath
+import javassist.scopedpool.ScopedClassPool
 import org.apache.commons.codec.digest.DigestUtils
 import org.gradle.api.Project
 
@@ -12,6 +13,7 @@ import org.gradle.api.Project
 public class JavassistTransform extends Transform {
     private Project project;
     private LJarConfig lJarConfig
+    private long  startTime = 0;
     public JavassistTransform(Project project) {
         this.project = project;
         this.lJarConfig = project.dhMCConfig
@@ -60,7 +62,7 @@ public class JavassistTransform extends Transform {
     public void transform(TransformInvocation transformInvocation) throws IOException {
         System.out.println("lin transform==="+ transformInvocation.isIncremental())
         project.logger.error("=================DhMTimePluginTransform start1=====================");
-
+        startTime = System.currentTimeMillis();
         try {
             Collection<TransformInput> inputs = transformInvocation.getInputs();
             TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
@@ -93,8 +95,9 @@ public class JavassistTransform extends Transform {
 //                FileUtils.copyDirectory(directoryInput.getFile(),dest)
                     System.out.println("input class ==="+directoryInput.getFile().getAbsolutePath());
                     JavassistInject.injectDir(directoryInput.getFile().getAbsolutePath(),dest.getAbsolutePath(), mClassPool,lJarConfig);
-
+//                processDirectoryInputs(directoryInput,outputProvider)
           }
+
             for(JarInput jarInput : jarSet){
                 String jarName = jarInput.getName();
                 String md5Name = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
@@ -112,10 +115,24 @@ public class JavassistTransform extends Transform {
                 }
                 System.out.println("output jar==="+dest.getAbsolutePath())
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        project.logger.error("=================DhMTimePluginTransform finish====================");
+        project.logger.error("=================DhMTimePluginTransform finish(total "+(System.currentTimeMillis()-startTime)/1000+"====================");
+    }
+
+    void processDirectoryInputs(DirectoryInput directoryInput, TransformOutputProvider outputProvider) {
+        File dest = outputProvider.getContentLocation(directoryInput.getName(),
+                directoryInput.getContentTypes(), directoryInput.getScopes(),
+                Format.DIRECTORY)
+        // 建立文件夹
+        FileUtils.forceMkdir(dest)
+
+        // to do some transform
+
+        // 将修改过的字节码copy到dest，就可以实现编译期间干预字节码的目的了
+        FileUtils.copyDirectory(directoryInput.getFile(), dest)
     }
 
 }

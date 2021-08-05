@@ -1,2 +1,3 @@
 include ':app', ':buildsrc'
 rootProject.name='dhjarfix'
+include ':testmlib'

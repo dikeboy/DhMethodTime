@@ -20,12 +20,12 @@ repositories {
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
 
     implementation 'com.novoda:bintray-release:0.8.0'
-    implementation 'org.javassist:javassist:3.25.0-GA'
-    implementation 'com.android.tools.build:gradle:3.5.0'
+    implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation 'com.android.tools.build:gradle:3.4.2'
 }
 
 //gradlePlugin {
@@ -47,7 +47,7 @@ uploadArchives {
             //文件发布到下面目录
             repository(url: uri('../repo'))
             pom.groupId = 'com.lin.dhmtime'
-            pom.version = '1.0.2'
+            pom.version = '1.0.1'
         }
     }
 }

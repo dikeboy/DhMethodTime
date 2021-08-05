@@ -10,7 +10,6 @@ import javassist.CtMethod
 import javassist.CtNewMethod
 import javassist.Modifier
 import org.apache.commons.io.FileUtils
-import org.bouncycastle.math.raw.Mod
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -51,7 +50,7 @@ class JavassistInject {
                         FileInputStream inputStream = new FileInputStream(file)
                         FileOutputStream outputStream = new FileOutputStream(outPutFile)
                         System.out.println("out put ==========="+outPutFile.getAbsolutePath())
-                        transform(inputStream, outputStream, mClassPool,lJarConfig)
+                        transformFile(inputStream, outputStream, mClassPool,lJarConfig)
                     } else {
                         FileUtils.copyFile(file, outPutFile)
                     }
@@ -83,6 +82,7 @@ class JavassistInject {
                             && !fileName.contains('R.class')
                             && !fileName.contains("BuildConfig.class"))
                         transform(zis, zos, mClassPool,lJarConfig)
+
                     else {
                         ByteStreams.copy(zis, zos)
                     }
@@ -104,6 +104,25 @@ class JavassistInject {
     }
 
 
+    static void transformFile(InputStream input, OutputStream out, ClassPool mClassPool,LJarConfig lJarConfig) {
+        try {
+            CtClass c = mClassPool.makeClass(input)
+            transformClass(c, mClassPool,lJarConfig)
+            out.write(c.toBytecode())
+            c.detach()
+            c.freeze()
+        } catch (Exception e) {
+            e.printStackTrace()
+            throw new RuntimeException(e.getMessage())
+        }finally{
+            if(input!=null){
+                input.close()
+            }
+            if(out!=null){
+                out.close()
+            }
+        }
+    }
     static void transform(InputStream input, OutputStream out, ClassPool mClassPool,LJarConfig lJarConfig) {
         try {
             CtClass c = mClassPool.makeClass(input)
@@ -132,7 +151,7 @@ class JavassistInject {
         if (c.isFrozen()) {
             c.defrost()
         }
-        if(c.isInterface())
+        if(c.isInterface()||c.isEnum())
             return
         if(c.getName().contains("\$"))
             return
@@ -150,8 +169,8 @@ class JavassistInject {
                     continue
                 if(m.getName().contains("\$"))
                     continue
-                if(m.getModifiers()== 25||m.getModifiers()== 9||m.getModifiers() ==8||m.getModifiers()==24)
-                    continue
+//                if(m.getModifiers()== 25||m.getModifiers()== 9||m.getModifiers() ==8||m.getModifiers()==24)
+//                    continue
 
                 String param = "m"+m.getName()+"_"+i+"_"+System.nanoTime()%1000
                 if(currentMethod.contains(param)){
@@ -168,17 +187,17 @@ class JavassistInject {
             try{
                 m.insertBefore(param+" =  System.currentTimeMillis();")
                 String userTime =" System.currentTimeMillis() - "+param +""
-                String line = "  System.out.println(\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"=======\"+("+userTime+"));"
+                String line = "  System.out.println(\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"==\"+("+userTime+"));"
                     int lineNum = 0;
                     if(m.getReturnType().getName().contains("void")) {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length())
                     }else {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length()) -1
                     }
-                    if(lineNum>0){
+                    if(lineNum>=0){
                         String resultTime = " if (" + userTime + " >=" + lJarConfig.logMinTime + ")" + line
 //                        System.out.println(resultTime)
-                        m.insertAt(lineNum ,resultTime)
+                        m.insertAfter(resultTime)
                     }
 
                 }catch(CannotCompileException ex){

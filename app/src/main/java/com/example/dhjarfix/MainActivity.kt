@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.testmlib.TestAop
 import com.vova.testlibrary.TestFile
 import java.lang.Thread.sleep
 
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fillListRight()
-
+        var test = TestAop();
+        test.name2;
+        test.getName();
 //        var test = TestFile()
 //        test.string
     }
