@@ -1,6 +1,5 @@
 package com.lin.dhjar.plugin
 
-import com.android.tools.r8.code.S
 import com.google.common.io.ByteStreams
 import com.google.common.io.Files
 import javassist.CannotCompileException
