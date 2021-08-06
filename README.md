@@ -31,6 +31,7 @@ apply plugin: "dhmtime"
 ...
 dhMCConfig {
     logMinTime(50l)//log method will more than 50 millseconds
+  setLogFilter("testlin")   //android.util.Log filter name
 }
 ```
 Log filter ::::::::
