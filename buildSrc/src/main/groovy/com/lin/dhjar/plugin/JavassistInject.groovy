@@ -187,7 +187,8 @@ class JavassistInject {
             try{
                 m.insertBefore(param+" =  System.currentTimeMillis();")
                 String userTime =" System.currentTimeMillis() - "+param +""
-                String line = "  System.out.println(\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"==\"+("+userTime+"));"
+                String logName = "android.util.Log.i(\""+lJarConfig.logFilter
+                String line = logName+"\",\""+c.getName()+"::::::::"+m.getMethodInfo().getName()+"==\"+("+userTime+"));"
                     int lineNum = 0;
                     if(m.getReturnType().getName().contains("void")) {
                          lineNum =  m.getMethodInfo().getLineNumber(m.getMethodInfo().codeAttribute.length())

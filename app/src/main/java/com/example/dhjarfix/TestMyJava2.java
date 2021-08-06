@@ -11,14 +11,12 @@ import androidx.fragment.app.FragmentManager;
  * @auth: ldh
  * @date: 2021/3/29 3:35 PM
  */
-public class TestMyJava extends Fragment {
+public class TestMyJava2 extends Fragment {
     public boolean isReturn = true;
-    public int getName() throws InterruptedException {
-        String name = "aaa";
-        Thread.sleep(2000);
-        AppCompatActivity activity = new AppCompatActivity();
+    public TestMyJava2(AppCompatActivity activity) {
         FragmentManager fm  =activity.getSupportFragmentManager();
-        return 1111;
+        fm.getPrimaryNavigationFragment();
+        String name = "222";
     }
 
     public int getData2()  {

@@ -60,6 +60,7 @@ dependencies {
 
 dhMCConfig {
     minTime(0l)
+    setLogFilter("testlin")
 }
 dhjar {
     jarFiles("appcompat","test")

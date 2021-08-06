@@ -3,11 +3,18 @@ package com.lin.dhjar.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
+import javassist.ClassPath
 import javassist.ClassPool
 import javassist.JarClassPath
+import javassist.LoaderClassPath
 import javassist.scopedpool.ScopedClassPool
 import org.apache.commons.codec.digest.DigestUtils
 import org.gradle.api.Project
+import org.gradle.internal.classloader.ClassLoaderFactory
+import org.gradle.internal.classloader.ClassLoaderUtils
+import org.gradle.internal.classloader.VisitableURLClassLoader
+import sun.misc.ClassLoaderUtil
+import sun.net.www.protocol.file.FileURLConnection
 
 
 public class JavassistTransform extends Transform {
@@ -77,15 +84,25 @@ public class JavassistTransform extends Transform {
             mClassPool.importPackage("android.os.Bundle");
             Set<DirectoryInput> classSet = new HashSet<DirectoryInput>()
             Set<JarInput> jarSet =new  HashSet<JarInput>()
+            Set<ClassPath> cachePath = new HashSet<ClassPath>()
+            VisitableURLClassLoader jarLoader;
+            URL[] urls;
             for (TransformInput input : inputs) {
                 for (DirectoryInput directoryInput : input.getDirectoryInputs()) {
                     classSet.add(directoryInput)
-                    mClassPool.appendClassPath(directoryInput.getFile().getAbsolutePath());
+                    cachePath.add(mClassPool.appendClassPath(directoryInput.getFile().getAbsolutePath()));
                 }
-                for (JarInput jarInput : input.getJarInputs()) {
+                urls = new URL[input.getJarInputs().size()];
+                int len = input.getJarInputs().size();
+                ClassLoader parent;
+                for (int i=0;i<len;i++) {
+                    JarInput jarInput = input.getJarInputs().get(i);
                     jarSet.add(jarInput)
-                    mClassPool.appendClassPath(new JarClassPath(jarInput.getFile().getAbsolutePath()));
+                    urls[i] = jarInput.getFile().toURI().toURL()
                 }
+                parent = mClassPool.getClassLoader().getParent()
+                jarLoader= new VisitableURLClassLoader("third jar",urls,parent);
+                mClassPool.appendClassPath(new LoaderClassPath(jarLoader))
             }
             System.out.println("class size===="+classSet.size());
             for (DirectoryInput directoryInput : classSet){
@@ -115,6 +132,7 @@ public class JavassistTransform extends Transform {
                 }
                 System.out.println("output jar==="+dest.getAbsolutePath())
             }
+            ClassLoaderUtils.tryClose(jarLoader)
 
         } catch (Exception e) {
             e.printStackTrace();

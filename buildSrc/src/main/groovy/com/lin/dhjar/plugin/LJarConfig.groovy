@@ -4,6 +4,7 @@ package com.lin.dhjar.plugin
 class LJarConfig {
     List<String> exclude = new  ArrayList<String>() //exclude class like
     long  logMinTime = 0l
+    String logFilter = "[dhmethodtime] "
     /**
      * 需要 拦截的jar文件
      * @param filters
@@ -22,4 +23,12 @@ class LJarConfig {
         }
         return this
     }
+
+    LJarConfig setFilter(String filter) {
+        if (filter != null) {
+            logFilter = filter
+        }
+        return this
+    }
+
 }
