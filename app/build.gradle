@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "dhjarplugin"
+//apply plugin: "dhjarplugin"
 apply plugin: "dhmtime"
 
 
@@ -62,7 +62,7 @@ dhMCConfig {
     minTime(0l)
     setLogFilter("testlin")
 }
-dhjar {
-    jarFiles("appcompat","test")
-    cutFiles("com.vova.testlibrary.TestFile:getInt:getFloat:getDouble:getLong:getShort:getChar:getByte:getString")
-}
+//dhjar {
+ //   jarFiles("appcompat","test")
+  //  cutFiles("com.vova.testlibrary.TestFile:getInt:getFloat:getDouble:getLong:getShort:getChar:getByte:getString")
+//}
