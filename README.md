@@ -20,7 +20,7 @@ mkdir in app/plugins.  copy app/repo/.../dhmtime-1.0.0.jar to plugins/
 在项目build.gradle 加入
 ```python
 classpath 'com.lin.dhmtime:dhmtime:1.0.0'
-classpath 'org.javassist:javassist:3.25.0-GA'
+classpath 'org.javassist:javassist:3.28.0-GA'
 ```
 App build.gradle 
 ```python
