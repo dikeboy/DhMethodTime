@@ -6,6 +6,8 @@ DhMethodTime 是一个再debug下统计所有安卓方法耗时的插件，引�
 
 An android gradle plugin for calculating time of all Android methods
 
+jcentery  is closed  and it move to local file
+
 ##  怎么使用
 Gradle->buildsrc->upload->uploadArchive 
 
@@ -29,13 +31,14 @@ apply plugin: "dhmtime"
 ...
 
 ...
+```python
 dhMCConfig {
-    logMinTime(50l)//log method will more than 50 millseconds
-  setLogFilter("testlin")   //android.util.Log filter name
+    minTime(0l)   //>= second will log print
+    setLogFilter("testlin")  //android log filter name
+    setLogEngine("android.util.Log.e") // default android.util.Log.i  you can use your self class
 }
 ```
 Log filter ::::::::
-![image](https://user-images.githubusercontent.com/4986104/113126882-b7928480-924a-11eb-9ff0-7ed3447a357a.png)
 
 
 
