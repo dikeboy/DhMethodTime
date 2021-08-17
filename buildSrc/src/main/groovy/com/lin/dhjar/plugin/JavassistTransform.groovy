@@ -5,16 +5,11 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
 import javassist.ClassPath
 import javassist.ClassPool
-import javassist.JarClassPath
 import javassist.LoaderClassPath
-import javassist.scopedpool.ScopedClassPool
 import org.apache.commons.codec.digest.DigestUtils
 import org.gradle.api.Project
-import org.gradle.internal.classloader.ClassLoaderFactory
 import org.gradle.internal.classloader.ClassLoaderUtils
 import org.gradle.internal.classloader.VisitableURLClassLoader
-import sun.misc.ClassLoaderUtil
-import sun.net.www.protocol.file.FileURLConnection
 
 
 public class JavassistTransform extends Transform {

@@ -5,6 +5,7 @@ class LJarConfig {
     List<String> exclude = new  ArrayList<String>() //exclude class like
     long  logMinTime = 0l
     String logFilter = "[dhmethodtime] "
+    String logEngine = "android.util.Log.i"
     /**
      * 需要 拦截的jar文件
      * @param filters
@@ -31,4 +32,10 @@ class LJarConfig {
         return this
     }
 
+    LJarConfig setLogEngine(String engine) {
+        if (engine != null&&engine.length()>0) {
+            logEngine = engine
+        }
+        return this
+    }
 }
