@@ -38,8 +38,9 @@ dhMCConfig {
     setLogEngine("android.util.Log.e") // default android.util.Log.i  you can use your self class
 }
 ```
-Log filter ::::::::
+Log print
 
+ ![Imag](https://github.com/dikeboy/DhMethodTime/blob/master/image/img.png)
 
 
 
