@@ -1,6 +1,6 @@
 # DhMethodTime
 
-## 简介
+## What's this
 
 DhMethodTime 是一个再debug下统计所有安卓方法耗时的插件，引用方便,利用javassist在编译时完成统计代码注入，realase版本下不会执行注入， 方便开发时测试，分析方法耗时，性能
 
@@ -8,7 +8,7 @@ An android gradle plugin for calculating time of all Android methods
 
 jcentery  is closed  and it move to local file
 
-##  怎么使用
+## How to use
 Gradle->buildsrc->upload->uploadArchive 
 
 mkdir in app/plugins.  copy app/repo/.../dhmtime-1.0.0.jar to plugins/
@@ -19,7 +19,7 @@ mkdir in app/plugins.  copy app/repo/.../dhmtime-1.0.0.jar to plugins/
         flatDir name: 'localRepository', dir: './app/plugins'
     }
 ```
-在项目build.gradle 加入
+base build.gradle:
 ```python
 classpath 'com.lin.dhmtime:dhmtime:1.0.0'
 classpath 'org.javassist:javassist:3.28.0-GA'
