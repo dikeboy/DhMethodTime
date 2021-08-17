@@ -31,7 +31,7 @@ apply plugin: "dhmtime"
 ...
 
 ...
-```python
+
 dhMCConfig {
     minTime(0l)   //>= second will log print
     setLogFilter("testlin")  //android log filter name
