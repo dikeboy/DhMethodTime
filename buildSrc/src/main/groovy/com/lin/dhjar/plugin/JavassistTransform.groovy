@@ -16,12 +16,14 @@ public class JavassistTransform extends Transform {
     private Project project;
     private LJarConfig lJarConfig
     private long  startTime = 0;
-    public JavassistTransform(Project project) {
+    private boolean  isRelease = false
+    public JavassistTransform(Project project,boolean  isRelease) {
         this.project = project;
         this.lJarConfig = project.dhMCConfig
         if(lJarConfig==null){
             lJarConfig = new LJarConfig()
         }
+        this.isRelease = isRelease;
     }
 
 
@@ -54,7 +56,7 @@ public class JavassistTransform extends Transform {
         sets.add(QualifiedContent.Scope.SUB_PROJECTS)
         return sets
     }
-
+ 
     @Override
     public boolean isIncremental() {
         return true;
@@ -62,6 +64,13 @@ public class JavassistTransform extends Transform {
 
     @Override
     public void transform(TransformInvocation transformInvocation) throws IOException {
+        if(isRelease&&lJarConfig.pluginState.toString().trim().equals("debug")){
+            super.transform(transformInvocation)
+            return;
+        }
+        super.transform(transformInvocation)
+        System.out.println("state2="+lJarConfig.pluginState.toString().trim())
+        System.out.println("state2="+lJarConfig.logFilter)
         System.out.println("lin transform==="+ transformInvocation.isIncremental())
         project.logger.error("=================DhMTimePluginTransform start1=====================");
         startTime = System.currentTimeMillis();
