@@ -44,7 +44,7 @@ class LJarConfig {
         return this
     }
 
-    LJarConfig setLogType(String mLogType){
+    LJarConfig setLogEngine(String mLogType){
         if(mLogType!=null&&mLogType.size()>1){
             logType = mLogType
         }
