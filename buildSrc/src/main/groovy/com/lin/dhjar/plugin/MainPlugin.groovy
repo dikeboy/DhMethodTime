@@ -8,9 +8,8 @@ public class MainPlugin implements Plugin<Project>{
     void apply(Project project) {
         System.out.println("==============regist plugin dhmtime==========")
         project.extensions.create("dhMCConfig", LJarConfig)
-        if(LJarUtils.getCurrentFlavor(project).contains("release"))
-            return
-        project.android.registerTransform(new JavassistTransform(project))
+        boolean  isRelease =LJarUtils.getCurrentFlavor(project).contains("release")
+        project.android.registerTransform(new JavassistTransform(project,isRelease))
     }
 
 }
